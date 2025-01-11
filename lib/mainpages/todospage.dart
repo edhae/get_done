@@ -17,7 +17,7 @@ class _TodosPageState extends State<TodosPage> {
     return Scaffold(
       appBar: AppBar(
         title: GradientText(
-          'Todo',
+          'ToDos',
           colors: [
             personalizedColor,
             personalizedColor.withValues(alpha: 0.5),

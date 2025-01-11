@@ -76,7 +76,7 @@ class _RootPageState extends State<RootPage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.check_box_outlined),
-              label: 'ToDo',
+              label: 'ToDos',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.hourglass_empty_rounded),
