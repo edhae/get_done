@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:get_done/theme/themedata.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'package:get_done/theme/themedata.dart';
 
-class TodayPage extends StatefulWidget {
-  const TodayPage({super.key});
+class SocialPage extends StatefulWidget {
+  const SocialPage({super.key});
 
   @override
-  State<TodayPage> createState() => _TodayPageState();
+  State<SocialPage> createState() => _SocialPageState();
 }
 
-class _TodayPageState extends State<TodayPage> {
+class _SocialPageState extends State<SocialPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: GradientText(
-          'Today',
+          'Social',
           colors: [
             personalizedColor,
             personalizedColor.withValues(alpha: 0.5),

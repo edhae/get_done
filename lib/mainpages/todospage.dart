@@ -17,7 +17,7 @@ class _TodosPageState extends State<TodosPage> {
     return Scaffold(
       appBar: AppBar(
         title: GradientText(
-          'Todos',
+          'Todo',
           colors: [
             personalizedColor,
             personalizedColor.withValues(alpha: 0.5),
@@ -37,7 +37,7 @@ class _TodosPageState extends State<TodosPage> {
         ],
       ),
       body: Container(
-        margin: EdgeInsets.all(10),
+        margin: EdgeInsets.only(top: 20, right: 10, left: 10),
         child: ReorderableListView.builder(
           onReorder: (oldIndex, newIndex) {
             setState(
@@ -54,7 +54,7 @@ class _TodosPageState extends State<TodosPage> {
           itemBuilder: (context, index) {
             return Container(
               key: ValueKey(todos[index]),
-              margin: EdgeInsets.only(bottom: 5),
+              margin: EdgeInsets.only(bottom: 7),
               padding: EdgeInsets.symmetric(horizontal: 3),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
@@ -62,7 +62,7 @@ class _TodosPageState extends State<TodosPage> {
                 color: Theme.of(context).colorScheme.primaryContainer,
                 border: Border.all(
                   color: todos[index]['project_color'],
-                  width: 3.5,
+                  width: 3,
                 ),
               ),
               child: ClipRRect(

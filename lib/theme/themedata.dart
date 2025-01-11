@@ -8,6 +8,7 @@ ThemeData lightMode = ThemeData(
     primary: Colors.white,
     secondary: Colors.black,
     primaryContainer: const Color.fromARGB(255, 250, 250, 250),
+    secondaryContainer: Color.alphaBlend(personalizedColor.withValues(alpha: 0.1), Colors.white),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Color.alphaBlend(
@@ -50,6 +51,7 @@ ThemeData darkMode = ThemeData(
     primary: Colors.black,
     secondary: Colors.white,
     primaryContainer: const Color.fromARGB(255, 40, 40, 40),
+    secondaryContainer: Color.alphaBlend(personalizedColor.withValues(alpha: 0.1), Colors.black),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Color.alphaBlend(
@@ -92,6 +94,7 @@ List<Color> personalizableColors = [
   Colors.blue,
   Colors.green,
   Colors.orange,
+  Colors.grey, //todo silber
 ];
 int currentPersonalizableColor = 3;
 Color personalizedColor = personalizableColors[currentPersonalizableColor];

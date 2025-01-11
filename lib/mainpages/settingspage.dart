@@ -15,14 +15,41 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: GradientText(
-          'Einstellungen',
+          'Settings',
           colors: [
             personalizedColor,
             personalizedColor.withValues(alpha: 0.5),
           ],
         ),
       ),
-      body: Container(),
+      body: Container(
+        margin: EdgeInsets.only(top: 20, left: 5, right: 5),
+        child: Column(
+          children: [
+            Text('Farben'),
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondaryContainer,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ListView(
+                children: [
+                  Expanded(
+                    child: ListTile(
+                      title: Text('App Theme'),
+                      onTap: () {},
+                    ),
+                  ),
+                  Divider(
+                    color: Theme.of(context).colorScheme.secondary,
+                    thickness: 3,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

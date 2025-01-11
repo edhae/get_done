@@ -5,6 +5,7 @@ import 'package:get_done/theme/themedata.dart';
 import 'package:get_done/mainpages/todaypage.dart';
 import 'package:get_done/mainpages/todospage.dart';
 import 'package:get_done/mainpages/focuspage.dart';
+import 'package:get_done/mainpages/socialpage.dart';
 import 'package:get_done/mainpages/settingspage.dart';
 
 void main() {
@@ -45,6 +46,7 @@ class _RootPageState extends State<RootPage> {
     TodayPage(),
     TodosPage(),
     FocusPage(),
+    SocialPage(),
     SettingsPage()
   ];
 
@@ -70,19 +72,23 @@ class _RootPageState extends State<RootPage> {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.list_alt_rounded),
-              label: 'Heute',
+              label: 'Today',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.check_box_outlined),
-              label: 'Todos',
+              label: 'ToDo',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.hourglass_empty_rounded),
               label: 'Focus',
             ),
             BottomNavigationBarItem(
+              icon: Icon(Icons.group_outlined),
+              label: 'Social',
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.settings_outlined),
-              label: 'Einstellungen',
+              label: 'Settings',
             ),
           ],
         ),

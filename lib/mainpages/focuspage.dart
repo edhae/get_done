@@ -15,7 +15,7 @@ class _FocusPageState extends State<FocusPage> {
     return Scaffold(
       appBar: AppBar(
         title: GradientText(
-          'Fokus',
+          'Focus',
           colors: [
             personalizedColor,
             personalizedColor.withValues(alpha: 0.5),
