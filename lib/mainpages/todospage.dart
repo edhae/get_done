@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
+import 'package:get_done/theme/themedata.dart';
 
 class TodosPage extends StatefulWidget {
   const TodosPage({super.key});
@@ -12,7 +14,13 @@ class _TodosPageState extends State<TodosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Todos'),
+        title: GradientText(
+          'Todos',
+          colors: [
+            personalizedColor,
+            personalizedColor.withValues(alpha: 0.5),
+          ],
+        ),
       ),
       body: Container(),
     );

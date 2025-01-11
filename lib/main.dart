@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get_done/theme/themeprovider.dart';
 import 'package:provider/provider.dart';
 import 'package:get_done/theme/themedata.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:get_done/mainpages/todaypage.dart';
 import 'package:get_done/mainpages/todospage.dart';
 import 'package:get_done/mainpages/focuspage.dart';
@@ -25,6 +24,7 @@ class MyApp extends StatelessWidget {
   final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       title: 'Get Done',
+      debugShowCheckedModeBanner: false,
       theme: lightMode,
       darkTheme: darkMode,
       themeMode: themeProvider.themeMode,
@@ -56,12 +56,13 @@ class _RootPageState extends State<RootPage> {
       body: pages[currentPage],
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
+        notchMargin: 9,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(
               icon: Icon(
-                Ionicons.home,
+                Icons.fact_check_outlined,
                 size: 35,
               ),
               tooltip: 'Heute',
@@ -73,7 +74,7 @@ class _RootPageState extends State<RootPage> {
             ),
             IconButton(
               icon: Icon(
-                Ionicons.checkbox,
+                Icons.library_add_check_outlined,
                 size: 35,
               ),
               tooltip: 'Todos',
@@ -88,7 +89,7 @@ class _RootPageState extends State<RootPage> {
             ),
             IconButton(
               icon: Icon(
-                Ionicons.bulb,
+                Icons.lightbulb_circle_outlined,
                 size: 35,
               ),
               tooltip: 'Fokus',
@@ -100,7 +101,7 @@ class _RootPageState extends State<RootPage> {
             ),
             IconButton(
               icon: Icon(
-                Ionicons.settings,
+                Icons.settings_outlined,
                 size: 35,
               ),
               tooltip: 'Einstellungen',

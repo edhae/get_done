@@ -20,6 +20,13 @@ ThemeData lightMode = ThemeData(
     backgroundColor: Color.alphaBlend(
         personalizedColor.withValues(alpha: 0.7), Colors.white),
   ),
+  appBarTheme: AppBarTheme(
+    titleTextStyle: TextStyle(
+      fontFamily: 'Poppins',
+      fontSize: 34,
+      fontWeight: FontWeight.w900,
+    ),
+  ),
 );
 
 ThemeData darkMode = ThemeData(
@@ -41,6 +48,13 @@ ThemeData darkMode = ThemeData(
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: Color.alphaBlend(
         personalizedColor.withValues(alpha: 0.7), Colors.black),
+  ),
+  appBarTheme: AppBarTheme(
+    titleTextStyle: TextStyle(
+      fontFamily: 'Poppins',
+      fontSize: 34,
+      fontWeight: FontWeight.w900,
+    ),
   ),
 );
 
