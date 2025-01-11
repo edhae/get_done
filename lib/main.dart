@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final themeProvider = Provider.of<ThemeProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       title: 'Get Done',
       debugShowCheckedModeBanner: false,
@@ -56,7 +56,7 @@ class _RootPageState extends State<RootPage> {
       body: pages[currentPage],
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
-        notchMargin: 9,
+        notchMargin: 8,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -118,7 +118,22 @@ class _RootPageState extends State<RootPage> {
         onPressed: () {},
         shape: CircleBorder(),
         elevation: 0,
-        child: Icon(Icons.add),
+        child: Container(
+          height: 60,
+          width: 60,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              colors: [
+                Color.alphaBlend(Colors.black.withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.4 : 0), personalizedColor) ,
+                Color.alphaBlend(Colors.black.withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.4 : 0), Color.alphaBlend(personalizedColor.withValues(alpha: 0.65), Colors.white)),
+              ],
+            ),
+          ),
+          child: Icon(Icons.add),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

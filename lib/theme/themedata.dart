@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 ThemeData lightMode = ThemeData(
+  fontFamily: 'Poppins',
   colorScheme: ColorScheme.light(
+    brightness: Brightness.light,
     surface: const Color.fromARGB(255, 248, 248, 248),
     primary: Colors.white,
+    secondary: Colors.black,
   ),
   bottomAppBarTheme: BottomAppBarTheme(
     color: Color.alphaBlend(
-        personalizedColor.withValues(alpha: 0.07), Colors.white),
+        personalizedColor.withValues(alpha: 0.35), Colors.grey.shade200),
   ),
   iconButtonTheme: IconButtonThemeData(
     style: ButtonStyle(
@@ -16,10 +19,6 @@ ThemeData lightMode = ThemeData(
       ),
     ),
   ),
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: Color.alphaBlend(
-        personalizedColor.withValues(alpha: 0.7), Colors.white),
-  ),
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontFamily: 'Poppins',
@@ -27,16 +26,26 @@ ThemeData lightMode = ThemeData(
       fontWeight: FontWeight.w900,
     ),
   ),
+  listTileTheme: ListTileThemeData(
+    titleTextStyle: TextStyle(
+      color: Colors.black,
+      fontSize: 20,
+      fontWeight: FontWeight.w700,
+    ),
+  ),
 );
 
 ThemeData darkMode = ThemeData(
+  fontFamily: 'Poppins',
   colorScheme: ColorScheme.light(
+    brightness: Brightness.dark,
     surface: const Color.fromARGB(255, 24, 24, 24),
     primary: Colors.black,
+    secondary: Colors.white,
   ),
   bottomAppBarTheme: BottomAppBarTheme(
     color: Color.alphaBlend(
-        personalizedColor.withValues(alpha: 0.07), Colors.black),
+        personalizedColor.withValues(alpha: 0.2), Colors.grey.shade900),
   ),
   iconButtonTheme: IconButtonThemeData(
     style: ButtonStyle(
@@ -45,15 +54,16 @@ ThemeData darkMode = ThemeData(
       ),
     ),
   ),
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: Color.alphaBlend(
-        personalizedColor.withValues(alpha: 0.7), Colors.black),
-  ),
   appBarTheme: AppBarTheme(
     titleTextStyle: TextStyle(
       fontFamily: 'Poppins',
       fontSize: 34,
       fontWeight: FontWeight.w900,
+    ),
+  ),
+  listTileTheme: ListTileThemeData(
+    titleTextStyle: TextStyle(
+      fontWeight: FontWeight.w700,
     ),
   ),
 );
