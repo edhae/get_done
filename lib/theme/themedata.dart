@@ -4,13 +4,20 @@ ThemeData lightMode = ThemeData(
   fontFamily: 'Poppins',
   colorScheme: ColorScheme.light(
     brightness: Brightness.light,
-    surface: const Color.fromARGB(255, 248, 248, 248),
+    surface: const Color.fromARGB(255, 247, 247, 247),
     primary: Colors.white,
     secondary: Colors.black,
+    primaryContainer: const Color.fromARGB(255, 250, 250, 250),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Color.alphaBlend(
         personalizedColor.withValues(alpha: 0.35), Colors.grey.shade200),
+    selectedLabelStyle: TextStyle(
+      fontWeight: FontWeight.w900,
+    ),
+    unselectedLabelStyle: TextStyle(
+      fontWeight: FontWeight.w700,
+    ),
   ),
   iconButtonTheme: IconButtonThemeData(
     style: ButtonStyle(
@@ -39,13 +46,20 @@ ThemeData darkMode = ThemeData(
   fontFamily: 'Poppins',
   colorScheme: ColorScheme.light(
     brightness: Brightness.dark,
-    surface: const Color.fromARGB(255, 24, 24, 24),
+    surface: const Color.fromARGB(255, 27, 27, 27),
     primary: Colors.black,
     secondary: Colors.white,
+    primaryContainer: const Color.fromARGB(255, 40, 40, 40),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Color.alphaBlend(
         personalizedColor.withValues(alpha: 0.2), Colors.grey.shade900),
+    selectedLabelStyle: TextStyle(
+      fontWeight: FontWeight.w900,
+    ),
+    unselectedLabelStyle: TextStyle(
+      fontWeight: FontWeight.w700,
+    ),
   ),
   iconButtonTheme: IconButtonThemeData(
     style: ButtonStyle(
@@ -63,11 +77,21 @@ ThemeData darkMode = ThemeData(
   ),
   listTileTheme: ListTileThemeData(
     titleTextStyle: TextStyle(
+      color: Colors.white,
+      fontSize: 20,
       fontWeight: FontWeight.w700,
+    ),
+    subtitleTextStyle: TextStyle(
+      color: Colors.white,
     ),
   ),
 );
 
-List<Color> personalizableColors = [Colors.pink];
-int currentPersonalizableColor = 0;
+List<Color> personalizableColors = [
+  Colors.pink,
+  Colors.blue,
+  Colors.green,
+  Colors.orange,
+];
+int currentPersonalizableColor = 3;
 Color personalizedColor = personalizableColors[currentPersonalizableColor];

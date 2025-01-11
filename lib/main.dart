@@ -54,31 +54,38 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[currentPage],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentPage,
-        onTap: (index) {
-          setState(() {
-            currentPage = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.today),
-            label: 'Today',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Todos',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.timer),
-            label: 'Focus',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(23),
+          topRight: Radius.circular(23),
+        ),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: currentPage,
+          onTap: (index) {
+            setState(() {
+              currentPage = index;
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list_alt_rounded),
+              label: 'Heute',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.check_box_outlined),
+              label: 'Todos',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.hourglass_empty_rounded),
+              label: 'Focus',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined),
+              label: 'Einstellungen',
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},

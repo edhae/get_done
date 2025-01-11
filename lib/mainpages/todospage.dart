@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:get_done/theme/themedata.dart';
 import 'package:get_done/data.dart';
+// import 'package:gradient_icon/gradient_icon.dart';
 
 class TodosPage extends StatefulWidget {
   const TodosPage({super.key});
@@ -22,44 +23,70 @@ class _TodosPageState extends State<TodosPage> {
             personalizedColor.withValues(alpha: 0.5),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.filter_list_rounded,
+              size: 40,
+              color: personalizedColor,
+            ),
+            onPressed: () {
+              //todo filter and sort todos option
+            },
+          ),
+        ],
       ),
-      body: ListView.builder(
-        itemCount: todos.length,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.only(top: 15, left: 10, right: 10),
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(20),
-              color: Theme.of(context).colorScheme.primary,
-              boxShadow: [
-                BoxShadow(
-                  color: Color.alphaBlend(
-                      personalizedColor.withValues(alpha: 0.17),
-                      Theme.of(context).colorScheme.primary),
-                  blurRadius: 6,
-                  offset: Offset(2, 4),
-                ),
-              ],
-            ),
-            child: CheckboxListTile(
-              title: GradientText(
-                todos[index]['title'],
-                colors: [
-                  personalizedColor,
-                  personalizedColor.withValues(alpha: 0.5),
-                ],
-              ),
-              subtitle: Text(todos[index]['due_date']),
-              value: todos[index]['done'],
-              onChanged: (value) {
-                setState(() {
-                  todos[index]['done'] = value;
-                });
+      body: Container(
+        margin: EdgeInsets.all(10),
+        child: ReorderableListView.builder(
+          onReorder: (oldIndex, newIndex) {
+            setState(
+              () {
+                if (newIndex > oldIndex) {
+                  newIndex -= 1;
+                }
+                final item = todos.removeAt(oldIndex);
+                todos.insert(newIndex, item);
               },
-            ),
-          );
-        },
+            );
+          },
+          itemCount: todos.length,
+          itemBuilder: (context, index) {
+            return Container(
+              key: ValueKey(todos[index]),
+              margin: EdgeInsets.only(bottom: 5),
+              padding: EdgeInsets.symmetric(horizontal: 3),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(20),
+                color: Theme.of(context).colorScheme.primaryContainer,
+                border: Border.all(
+                  color: todos[index]['project_color'],
+                  width: 3.5,
+                ),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: CheckboxListTile(
+                  title: GradientText(
+                    todos[index]['title'],
+                    colors: [
+                      personalizedColor,
+                      personalizedColor.withValues(alpha: 0.5),
+                    ],
+                  ),
+                  subtitle: Text(todos[index]['due_date']),
+                  value: todos[index]['done'],
+                  onChanged: (value) {
+                    setState(() {
+                      todos[index]['done'] = value;
+                    });
+                  },
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
