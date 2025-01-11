@@ -8,8 +8,8 @@ ThemeData lightMode = ThemeData(
     primary: Colors.white,
     secondary: Colors.black,
   ),
-  bottomAppBarTheme: BottomAppBarTheme(
-    color: Color.alphaBlend(
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    backgroundColor: Color.alphaBlend(
         personalizedColor.withValues(alpha: 0.35), Colors.grey.shade200),
   ),
   iconButtonTheme: IconButtonThemeData(
@@ -43,8 +43,8 @@ ThemeData darkMode = ThemeData(
     primary: Colors.black,
     secondary: Colors.white,
   ),
-  bottomAppBarTheme: BottomAppBarTheme(
-    color: Color.alphaBlend(
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    backgroundColor: Color.alphaBlend(
         personalizedColor.withValues(alpha: 0.2), Colors.grey.shade900),
   ),
   iconButtonTheme: IconButtonThemeData(
