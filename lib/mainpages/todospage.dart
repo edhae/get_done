@@ -65,35 +65,77 @@ class _TodosPageState extends State<TodosPage> {
 
             Map project = projects[todo['project_id']]!;
             Color projectColor = project['project_color'];
+            IconData projectIcon = project['project_icon'];
 
-            return Container(
+            return Dismissible(
               key: ValueKey(todos[index]),
-              margin: EdgeInsets.only(bottom: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
-              child: CheckboxListTile(
-                title: Text(
-                  todoTitle,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      color: Color.alphaBlend(
-                          personalizedColor.withValues(alpha: 0.1),
-                          Theme.of(context).colorScheme.secondary)),
+              direction: DismissDirection.horizontal,
+              onDismissed: (direction) {
+                setState(() {
+                  if (direction == DismissDirection.endToStart) {
+                    todo['isDone'] = true;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('${todo['title']} marked as done!'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } else if (direction == DismissDirection.startToEnd) { //todo useful action
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('${todo['title']} deleted!'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                });
+              },
+              background: Container(
+                color: Colors.red,
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.white,
                 ),
-                subtitle: Text(todoDueDate),
-                value: todoIsDone,
-                onChanged: (value) {
-                  setState(() {
-                    todos[index]['todo_is_done'] = value!;
-                  });
-                },
-                checkboxShape: CircleBorder(),
-                checkboxScaleFactor: 1.3,
-                secondary: Icon(
-                  Icons.clean_hands,
-                  color: projectColor,
+              ),
+              secondaryBackground: Container(
+                color: Colors.green,
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Icon(
+                  Icons.check,
+                  color: Colors.white,
+                ),
+              ),
+              child: Container(
+                margin: EdgeInsets.only(bottom: 5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                ),
+                child: CheckboxListTile(
+                  title: Text(
+                    todoTitle,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        color: Color.alphaBlend(
+                            personalizedColor.withValues(alpha: 0.1),
+                            Theme.of(context).colorScheme.secondary)),
+                  ),
+                  subtitle: Text(todoDueDate),
+                  value: todoIsDone,
+                  onChanged: (value) {
+                    setState(() {
+                      todo['todo_is_done'] = value!;
+                    });
+                  },
+                  checkboxShape: CircleBorder(),
+                  checkboxScaleFactor: 1.3,
+                  secondary: Icon(
+                    projectIcon,
+                    color: projectColor,
+                  ),
                 ),
               ),
             );
