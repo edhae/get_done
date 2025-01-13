@@ -52,36 +52,48 @@ class _TodosPageState extends State<TodosPage> {
           },
           itemCount: todos.length,
           itemBuilder: (context, index) {
+            if (todos[index]['todo_is_done'] == true) {
+              return SizedBox.shrink(
+                key: ValueKey(todos[index]),
+              );
+            }
+
+            Map todo = todos[index];
+            String todoTitle = todo['todo_title'];
+            String todoDueDate = todo['todo_due_date'];
+            bool? todoIsDone = todo['todo_is_done'];
+
+            Map project = projects[todo['project_id']]!;
+            Color projectColor = project['project_color'];
+
             return Container(
               key: ValueKey(todos[index]),
-              margin: EdgeInsets.only(bottom: 7),
-              padding: EdgeInsets.symmetric(horizontal: 3),
+              margin: EdgeInsets.only(bottom: 5),
               decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(15),
                 color: Theme.of(context).colorScheme.primaryContainer,
-                border: Border.all(
-                  color: todos[index]['project_color'],
-                  width: 3,
-                ),
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: CheckboxListTile(
-                  title: GradientText(
-                    todos[index]['title'],
-                    colors: [
-                      personalizedColor,
-                      personalizedColor.withValues(alpha: 0.5),
-                    ],
-                  ),
-                  subtitle: Text(todos[index]['due_date']),
-                  value: todos[index]['done'],
-                  onChanged: (value) {
-                    setState(() {
-                      todos[index]['done'] = value;
-                    });
-                  },
+              child: CheckboxListTile(
+                title: Text(
+                  todoTitle,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      color: Color.alphaBlend(
+                          personalizedColor.withValues(alpha: 0.1),
+                          Theme.of(context).colorScheme.secondary)),
+                ),
+                subtitle: Text(todoDueDate),
+                value: todoIsDone,
+                onChanged: (value) {
+                  setState(() {
+                    todos[index]['todo_is_done'] = value!;
+                  });
+                },
+                checkboxShape: CircleBorder(),
+                checkboxScaleFactor: 1.3,
+                secondary: Icon(
+                  Icons.clean_hands,
+                  color: projectColor,
                 ),
               ),
             );

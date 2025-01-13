@@ -13,16 +13,7 @@ class ThemeProvider with ChangeNotifier {
   }
 
   // Methode: System-Theme aktivieren
-  void setSystemTheme() {
-    themeMode = ThemeMode.system;
-  }
-
-  // Methode: Theme umschalten (manuell)
-  void toggleTheme() {
-    if (_themeMode == ThemeMode.light) {
-      themeMode = ThemeMode.dark;
-    } else {
-      themeMode = ThemeMode.light;
-    }
+  void setTheme(mode) {
+    themeMode = mode;
   }
 }

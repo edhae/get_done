@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:get_done/theme/themedata.dart';
+import 'package:get_done/theme/themeprovider.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -53,14 +55,26 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 child: Column(
                   children: [
-                    ListTile(
-                      title: Text(
-                        'App Theme',
-                        style: TextStyle(
-                            fontSize: 19, fontWeight: FontWeight.w500),
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => SetAppThemeAlert(),
+                        );
+                      },
+                      child: InkWell(
+                        splashColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        child: ListTile(
+                          title: Text(
+                            'App Theme',
+                            style: TextStyle(
+                                fontSize: 19, fontWeight: FontWeight.w500),
+                          ),
+                          leading: Icon(Icons.dark_mode_outlined),
+                          trailing: Icon(Icons.arrow_forward_ios_rounded),
+                        ),
                       ),
-                      leading: Icon(Icons.dark_mode_outlined),
-                      onTap: () {},
                     ),
                     Divider(
                       color: Theme.of(context).colorScheme.secondary,
@@ -69,19 +83,20 @@ class _SettingsPageState extends State<SettingsPage> {
                       endIndent: 25,
                       height: 0,
                     ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                      ),
-                      child: ListTile(
-                        title: Text(
-                          'Personalize Color',
-                          style: TextStyle(
-                              fontSize: 19, fontWeight: FontWeight.w500),
+                    GestureDetector(
+                      onTap: () {},
+                      child: InkWell(
+                        splashColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        child: ListTile(
+                          title: Text(
+                            'Personalize Color',
+                            style: TextStyle(
+                                fontSize: 19, fontWeight: FontWeight.w500),
+                          ),
+                          leading: Icon(Icons.color_lens_outlined),
+                          trailing: Icon(Icons.arrow_forward_ios_rounded),
                         ),
-                        leading: Icon(Icons.color_lens_outlined),
-                        onTap: () {},
                       ),
                     ),
                   ],
@@ -91,6 +106,106 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class SetAppThemeAlert extends StatelessWidget {
+  const SetAppThemeAlert({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeMode selectedMode =
+        Provider.of<ThemeProvider>(context, listen: false).themeMode;
+
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      title: Text(
+        'Select Theme',
+        style: TextStyle(
+          fontSize: 24,
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+      ),
+      content: StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text(
+                  'Dunkel',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                leading: Radio<ThemeMode>(
+                  value: ThemeMode.dark,
+                  groupValue: selectedMode,
+                  onChanged: (ThemeMode? value) {
+                    setState(() {
+                      selectedMode = value!;
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              ListTile(
+                title: Text(
+                  'Light',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                leading: Radio<ThemeMode>(
+                  value: ThemeMode.light,
+                  groupValue: selectedMode,
+                  onChanged: (ThemeMode? value) {
+                    setState(() {
+                      selectedMode = value!;
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              ListTile(
+                title: Text(
+                  'System',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                leading: Radio<ThemeMode>(
+                  value: ThemeMode.system,
+                  groupValue: selectedMode,
+                  onChanged: (ThemeMode? value) {
+                    setState(() {
+                      selectedMode = value!;
+                    });
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            Provider.of<ThemeProvider>(context, listen: false)
+                .setTheme(selectedMode);
+            Navigator.of(context).pop();
+          },
+          child: const Text('Set'),
+        ),
+      ],
     );
   }
 }

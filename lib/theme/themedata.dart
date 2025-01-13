@@ -89,6 +89,9 @@ ThemeData darkMode = ThemeData(
       color: Colors.white,
     ),
   ),
+  radioTheme: RadioThemeData(
+    fillColor: WidgetStateProperty.all<Color>(personalizedColor),
+  )
 );
 
 List<Color> personalizableColors = [
@@ -98,5 +101,5 @@ List<Color> personalizableColors = [
   Colors.orange,
   Colors.grey, //todo silber
 ];
-int currentPersonalizableColor = 0;
+int currentPersonalizableColor = 1;
 Color personalizedColor = personalizableColors[currentPersonalizableColor];
