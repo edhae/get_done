@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-List<Map<String, dynamic>> todos = [ //todo description
+//! TODO DATA
+
+List<Map<String, dynamic>> todos = [
+  //todo description
   {
     'todo_title': 'Einkaufen',
     'todo_due_date': '13.01.25',
@@ -21,6 +24,8 @@ List<Map<String, dynamic>> todos = [ //todo description
   },
 ];
 
+//! PROJECTS DATA
+
 Map<int, Map<String, dynamic>> projects = {
   0: {
     'project_name': 'Haushalt',
@@ -33,3 +38,15 @@ Map<int, Map<String, dynamic>> projects = {
     'project_icon': Icons.attach_money_rounded,
   },
 };
+
+Map projectsNameToId = Map.fromEntries(
+    projects.keys.map((id) => MapEntry(id, projects[id]!['project_name'])));
+List projectsNames = projectsNameToId.values.toList();
+
+
+//! FILTER AND SORT DATA
+
+String selectedSortOption = 'Date';
+String selectedStatus = 'Undone';
+List selectedProjects = [0];
+

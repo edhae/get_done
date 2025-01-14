@@ -101,5 +101,5 @@ List<Color> personalizableColors = [
   Colors.orange,
   Colors.grey, //todo silber
 ];
-int currentPersonalizableColor = 1;
+int currentPersonalizableColor = 3;
 Color personalizedColor = personalizableColors[currentPersonalizableColor];

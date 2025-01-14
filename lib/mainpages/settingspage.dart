@@ -92,8 +92,16 @@ class _SettingsPageState extends State<SettingsPage> {
                           title: Text(
                             'Personalize Color',
                             style: TextStyle(
-                                fontSize: 19, fontWeight: FontWeight.w500),
+                              fontSize: 19,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => SetPersonalizedColorAlert(),
+                            );
+                          },
                           leading: Icon(Icons.color_lens_outlined),
                           trailing: Icon(Icons.arrow_forward_ios_rounded),
                         ),
@@ -207,5 +215,14 @@ class SetAppThemeAlert extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class SetPersonalizedColorAlert extends StatelessWidget {
+  const SetPersonalizedColorAlert({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog();
   }
 }
