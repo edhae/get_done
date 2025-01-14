@@ -172,6 +172,20 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Filter Todos'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text('Apply'),
+        ),
+      ],
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,16 +193,17 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
             Text('Sort by:'),
             Wrap(
               spacing: 8.0,
-              children: [
-                ['Date', 'Priority'].map((option) => FilterChip(
-                          label: Text(option),
-                          selected: ,
-                        ))
-                    .toList(),
+              children: ['Date', 'Priority']
+                  .map(
+                    (option) => ChoiceChip(
+                        label: Text(option),
+                        selected: selectedSortOption == option,
+                        onSelected: (newValue) {
+                          selectedSortOption = option;
+                        }),
+                  )
+                  .toList(),
             ),
-              ],
-            )
-            
             SizedBox(height: 16.0),
             Text('Status:'),
             DropdownButton<String>(
@@ -225,20 +240,6 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
           ],
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('Apply'),
-        ),
-      ],
     );
   }
 }
