@@ -45,6 +45,7 @@ Map<int, Map<String, dynamic>> projects = {
 // Filtering and Sorting
 String selectedSortOption = 'Date';
 List<String> selectedStatusFilters = ['Done', 'Undone'];
+List<String> selectedPriorityFilters = ['0', '1', '2'];
 List selectedProjectsId =
     List.generate(projects.length, (int index) => index, growable: true);
 

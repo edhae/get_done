@@ -12,6 +12,8 @@ class TodosPage extends StatefulWidget {
 }
 
 class _TodosPageState extends State<TodosPage> {
+  int anyTodosDisplayed = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,6 +78,16 @@ class _TodosPageState extends State<TodosPage> {
 
             // check status filter
             if (!selectedStatusFilters.contains(todoIsDoneString)) {
+              anyTodosDisplayed += 1;
+              return SizedBox.shrink(
+                key: ValueKey(index),
+              );
+            }
+
+            // check priority filter
+
+            if (!selectedPriorityFilters.contains(todoPriority.toString())) {
+              anyTodosDisplayed += 1;
               return SizedBox.shrink(
                 key: ValueKey(index),
               );
@@ -83,10 +95,19 @@ class _TodosPageState extends State<TodosPage> {
 
             // check project filter
             if (!selectedProjectsId.contains(projectId)) {
+              anyTodosDisplayed += 1;
               return SizedBox.shrink(
                 key: ValueKey(index),
               );
             }
+
+            debugPrint(anyTodosDisplayed.toString());
+
+            // check if any Todos are being displayed
+            if (anyTodosDisplayed == todos.length) {
+              return Center(child: Text('hallo'));
+            }
+            anyTodosDisplayed == 0;
 
             return Dismissible(
               key: ValueKey(index),
@@ -137,35 +158,33 @@ class _TodosPageState extends State<TodosPage> {
                   color: Theme.of(context).colorScheme.primaryContainer,
                 ),
                 child: GestureDetector(
-                  onTap: () {},
-                  child: InkWell(
-                    splashColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    child: ListTile(
-                      title: Text(
-                        '$todoTitle [$todoPriority]',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            color: Color.alphaBlend(
-                                personalizedColor.withValues(alpha: 0.1),
-                                Theme.of(context).colorScheme.secondary)),
-                      ),
-                      subtitle: Text(todoDueDate),
-                      leading: Icon(
-                        projectIcon,
-                        color: projectColor,
-                      ),
-                      trailing: Transform.scale(
-                        scale: 1.4,
-                        child: Checkbox(
-                          value: todoIsDone,
-                          onChanged: (value) {
-                            setState(() {
-                              todo['todo_is_done'] = value!;
-                            });
-                          },
-                          shape: CircleBorder(),
-                        ),
+                  onTap: () {
+                    //! todo bearbeiten
+                  },
+                  child: ListTile(
+                    title: Text(
+                      '$todoTitle [$todoPriority]',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          color: Color.alphaBlend(
+                              personalizedColor.withValues(alpha: 0.1),
+                              Theme.of(context).colorScheme.secondary)),
+                    ),
+                    subtitle: Text(todoDueDate),
+                    leading: Icon(
+                      projectIcon,
+                      color: projectColor,
+                    ),
+                    trailing: Transform.scale(
+                      scale: 1.4,
+                      child: Checkbox(
+                        value: todoIsDone,
+                        onChanged: (value) {
+                          setState(() {
+                            todo['todo_is_done'] = value!;
+                          });
+                        },
+                        shape: CircleBorder(),
                       ),
                     ),
                   ),
@@ -245,7 +264,6 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
                       selected:
                           selectedStatusFilters.contains(statusFilterOption),
                       onSelected: (isSelected) {
-                        debugPrint(isSelected.toString());
                         if (isSelected) {
                           setState(() {
                             selectedStatusFilters.add(statusFilterOption);
@@ -253,6 +271,33 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
                         } else {
                           setState(() {
                             selectedStatusFilters.remove(statusFilterOption);
+                          });
+                        }
+                      },
+                      showCheckmark: false,
+                    ),
+                  )
+                  .toList(),
+            ),
+            SizedBox(height: 16.0),
+            Text('Priorities:'),
+            Wrap(
+              spacing: 8.0,
+              children: ['0', '1', '2']
+                  .map(
+                    (priorityFilterOption) => FilterChip(
+                      label: Text(priorityFilterOption),
+                      selected: selectedPriorityFilters
+                          .contains(priorityFilterOption),
+                      onSelected: (isSelected) {
+                        if (isSelected) {
+                          setState(() {
+                            selectedPriorityFilters.add(priorityFilterOption);
+                          });
+                        } else {
+                          setState(() {
+                            selectedPriorityFilters
+                                .remove(priorityFilterOption);
                           });
                         }
                       },
