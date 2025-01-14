@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
 
-//! TODO DATA
+//. Todo Map
 
 List<Map<String, dynamic>> todos = [
   //todo description
   {
     'todo_title': 'Einkaufen',
     'todo_due_date': '13.01.25',
+    'todo_priority': 2,
     'todo_is_done': false,
-    'project_id': 0,
+    'project_id': 1,
   },
   {
     'todo_title': 'Putzen',
     'todo_due_date': '14.01.25',
-    'todo_is_done': false,
-    'project_id': 0,
-  },
-  {
-    'todo_title': 'Einkaufen',
-    'todo_due_date': '30.01.25',
+    'todo_priority': 0,
     'todo_is_done': false,
     'project_id': 1,
   },
+  {
+    'todo_title': 'Finanzen',
+    'todo_due_date': '30.01.25',
+    'todo_priority': 1,
+    'todo_is_done': false,
+    'project_id': 0,
+  },
 ];
 
-//! PROJECTS DATA
+// Projects Map
 
 Map<int, Map<String, dynamic>> projects = {
   0: {
@@ -39,14 +42,40 @@ Map<int, Map<String, dynamic>> projects = {
   },
 };
 
-Map projectsNameToId = Map.fromEntries(
-    projects.keys.map((id) => MapEntry(id, projects[id]!['project_name'])));
-List projectsNames = projectsNameToId.values.toList();
-
-
-//! FILTER AND SORT DATA
-
+// Filtering and Sorting
 String selectedSortOption = 'Date';
-String selectedStatus = 'Undone';
-List selectedProjects = [0];
+List<String> selectedStatusFilters = ['Done', 'Undone'];
+List selectedProjectsId =
+    List.generate(projects.length, (int index) => index, growable: true);
 
+void startSorting(sortOption) {
+  if (sortOption == 'Date') {
+    sortByDate();
+  } else if (sortOption == 'Priority') {
+    sortByPriority();
+  }
+  return;
+}
+
+void sortByDate() {
+  todos.sort((a, b) {
+    String dateAString = a['todo_due_date'];
+    String dateBString = b['todo_due_date'];
+
+    DateTime dateA = DateTime.parse(
+        '20${dateAString.substring(0, 2)}-${dateAString.substring(3, 5)}-${dateAString.substring(6, 8)}');
+    DateTime dateB = DateTime.parse(
+        '20${dateBString.substring(0, 2)}-${dateBString.substring(3, 5)}-${dateBString.substring(6, 8)}');
+
+    return dateA.compareTo(dateB);
+  });
+}
+
+void sortByPriority() {
+  todos.sort((a, b) {
+    int prioA = a['todo_priority'];
+    int prioB = b['todo_priority'];
+
+    return prioB.compareTo(prioA);
+  });
+}

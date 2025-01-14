@@ -32,8 +32,11 @@ class _TodosPageState extends State<TodosPage> {
             ),
             onPressed: () {
               showDialog(
-                  context: context,
-                  builder: (context) => SetFilterAndSortAlert());
+                      context: context,
+                      builder: (context) => SetFilterAndSortAlert())
+                  .then((_) => setState(
+                        () {},
+                      ));
             },
           ),
         ],
@@ -58,20 +61,32 @@ class _TodosPageState extends State<TodosPage> {
           ),
           itemCount: todos.length,
           itemBuilder: (context, index) {
-            if (todos[index]['todo_is_done'] == true) {
+            // unpack todo data & project data
+            Map todo = todos[index];
+            String todoTitle = todo['todo_title'];
+            String todoDueDate = todo['todo_due_date'];
+            String todoPriority = todo['todo_priority'].toString();
+            bool todoIsDone = todo['todo_is_done'];
+            String todoIsDoneString = todoIsDone ? 'Done' : 'Undone';
+
+            int projectId = todo['project_id'];
+            Map project = projects[projectId]!;
+            Color projectColor = project['project_color'];
+            IconData projectIcon = project['project_icon'];
+
+            // check status filter
+            if (!selectedStatusFilters.contains(todoIsDoneString)) {
               return SizedBox.shrink(
                 key: ValueKey(index),
               );
             }
 
-            Map todo = todos[index];
-            String todoTitle = todo['todo_title'];
-            String todoDueDate = todo['todo_due_date'];
-            bool? todoIsDone = todo['todo_is_done'];
-
-            Map project = projects[todo['project_id']]!;
-            Color projectColor = project['project_color'];
-            IconData projectIcon = project['project_icon'];
+            // check project filter
+            if (!selectedProjectsId.contains(projectId)) {
+              return SizedBox.shrink(
+                key: ValueKey(index),
+              );
+            }
 
             return Dismissible(
               key: ValueKey(index),
@@ -79,7 +94,7 @@ class _TodosPageState extends State<TodosPage> {
               onDismissed: (direction) {
                 if (direction == DismissDirection.endToStart) {
                   setState(() {
-                    todo['isDone'] = true;
+                    todo['todo_is_done'] = true;
                   });
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -126,9 +141,9 @@ class _TodosPageState extends State<TodosPage> {
                   child: InkWell(
                     splashColor: Colors.transparent,
                     hoverColor: Colors.transparent,
-                    child: CheckboxListTile(
+                    child: ListTile(
                       title: Text(
-                        todoTitle,
+                        '$todoTitle [$todoPriority]',
                         style: TextStyle(
                             fontWeight: FontWeight.w900,
                             color: Color.alphaBlend(
@@ -136,17 +151,21 @@ class _TodosPageState extends State<TodosPage> {
                                 Theme.of(context).colorScheme.secondary)),
                       ),
                       subtitle: Text(todoDueDate),
-                      value: todoIsDone,
-                      onChanged: (value) {
-                        setState(() {
-                          todo['todo_is_done'] = value!;
-                        });
-                      },
-                      checkboxShape: CircleBorder(),
-                      checkboxScaleFactor: 1.3,
-                      secondary: Icon(
+                      leading: Icon(
                         projectIcon,
                         color: projectColor,
+                      ),
+                      trailing: Transform.scale(
+                        scale: 1.4,
+                        child: Checkbox(
+                          value: todoIsDone,
+                          onChanged: (value) {
+                            setState(() {
+                              todo['todo_is_done'] = value!;
+                            });
+                          },
+                          shape: CircleBorder(),
+                        ),
                       ),
                     ),
                   ),
@@ -171,19 +190,25 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Filter Todos'),
+      title: GradientText(
+        'Filter Todos',
+        colors: [
+          personalizedColor,
+          personalizedColor.withValues(alpha: 0.5),
+        ],
+        style: TextStyle(fontWeight: FontWeight.w500, fontSize: 28),
+      ),
       actions: [
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('Apply'),
+          child: Text(
+            'Done',
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.secondary,
+                fontWeight: FontWeight.w500),
+          ),
         ),
       ],
       content: SingleChildScrollView(
@@ -195,46 +220,70 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
               spacing: 8.0,
               children: ['Date', 'Priority']
                   .map(
-                    (option) => ChoiceChip(
-                        label: Text(option),
-                        selected: selectedSortOption == option,
-                        onSelected: (newValue) {
-                          selectedSortOption = option;
-                        }),
+                    (sortOption) => ChoiceChip(
+                      label: Text(sortOption),
+                      selected: selectedSortOption == sortOption,
+                      onSelected: (newValue) {
+                        setState(() {
+                          selectedSortOption = sortOption;
+                          startSorting(sortOption);
+                        });
+                      },
+                      showCheckmark: false,
+                    ),
                   )
                   .toList(),
             ),
             SizedBox(height: 16.0),
             Text('Status:'),
-            DropdownButton<String>(
-              value: selectedStatus,
-              hint: Text('Select status'),
-              onChanged: (value) {
-                selectedStatus = value!;
-              },
-              items: ['Done', 'Undone', 'All']
-                  .map((status) => DropdownMenuItem(
-                        value: status,
-                        child: Text(status),
-                      ))
+            Wrap(
+              spacing: 8.0,
+              children: ['Done', 'Undone']
+                  .map(
+                    (statusFilterOption) => FilterChip(
+                      label: Text(statusFilterOption),
+                      selected:
+                          selectedStatusFilters.contains(statusFilterOption),
+                      onSelected: (isSelected) {
+                        debugPrint(isSelected.toString());
+                        if (isSelected) {
+                          setState(() {
+                            selectedStatusFilters.add(statusFilterOption);
+                          });
+                        } else {
+                          setState(() {
+                            selectedStatusFilters.remove(statusFilterOption);
+                          });
+                        }
+                      },
+                      showCheckmark: false,
+                    ),
+                  )
                   .toList(),
             ),
             SizedBox(height: 16.0),
             Text('Projects:'),
             Wrap(
               spacing: 8.0,
-              children: projectsNames
-                  .map((project) => FilterChip(
-                        label: Text(projectsNameToId[project]),
-                        selected: selectedProjects.contains(project),
-                        onSelected: (isSelected) {
-                          if (isSelected) {
-                            selectedProjects.add(project);
-                          } else {
-                            selectedProjects.remove(project);
-                          }
-                        },
-                      ))
+              children: projects.keys
+                  .map(
+                    (projectId) => FilterChip(
+                      label: Text(projects[projectId]!['project_name']),
+                      selected: selectedProjectsId.contains(projectId),
+                      onSelected: (isSelected) {
+                        if (isSelected) {
+                          setState(() {
+                            selectedProjectsId.add(projectId);
+                          });
+                        } else {
+                          setState(() {
+                            selectedProjectsId.remove(projectId);
+                          });
+                        }
+                      },
+                      showCheckmark: false,
+                    ),
+                  )
                   .toList(),
             ),
           ],

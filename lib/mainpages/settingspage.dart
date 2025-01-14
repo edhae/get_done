@@ -50,7 +50,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondaryContainer,
+                  color: Theme.of(context).colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Column(

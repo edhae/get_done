@@ -2,21 +2,31 @@ import 'package:flutter/material.dart';
 
 ThemeData lightMode = ThemeData(
   fontFamily: 'Poppins',
+  textTheme: TextTheme(
+    // bodySmall: TextStyle(
+    //   color: Colors.white,
+    // ),
+    bodyMedium: TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.w700,
+    ),
+  ),
   colorScheme: ColorScheme.light(
     brightness: Brightness.light,
     surface: const Color.fromARGB(255, 239, 239, 239),
     primary: Colors.white,
     secondary: Colors.black,
     primaryContainer: const Color.fromARGB(255, 250, 250, 250),
-    secondaryContainer: const Color.fromARGB(255, 253, 253, 253),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Color.alphaBlend(
         personalizedColor.withValues(alpha: 0.35), Colors.grey.shade200),
     selectedLabelStyle: TextStyle(
       fontWeight: FontWeight.w900,
+      color: Colors.green,
     ),
     unselectedLabelStyle: TextStyle(
+      color: Colors.black,
       fontWeight: FontWeight.w700,
     ),
   ),
@@ -42,17 +52,32 @@ ThemeData lightMode = ThemeData(
     ),
     iconColor: Colors.black,
   ),
+  chipTheme: ChipThemeData(
+    labelStyle: TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.w500,
+    ),
+    selectedColor: Color.alphaBlend(personalizedColor.withValues(alpha: 0.8), Colors.white),
+  ),
 );
 
 ThemeData darkMode = ThemeData(
   fontFamily: 'Poppins',
+  textTheme: TextTheme(
+    bodyMedium: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w700,
+    ),
+    bodyLarge: TextStyle(
+      color: Colors.white,
+    )
+  ),
   colorScheme: ColorScheme.light(
     brightness: Brightness.dark,
     surface: const Color.fromARGB(255, 27, 27, 27),
     primary: Colors.black,
     secondary: Colors.white,
     primaryContainer: const Color.fromARGB(255, 40, 40, 40),
-    secondaryContainer: const Color.fromARGB(255, 39, 39, 39),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Color.alphaBlend(
@@ -91,7 +116,15 @@ ThemeData darkMode = ThemeData(
   ),
   radioTheme: RadioThemeData(
     fillColor: WidgetStateProperty.all<Color>(personalizedColor),
-  )
+  ),
+  chipTheme: ChipThemeData(
+    labelStyle: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w500,
+    ),
+    selectedColor: Color.alphaBlend(
+        personalizedColor.withValues(alpha: 0.9), Colors.grey.shade100),
+  ),
 );
 
 List<Color> personalizableColors = [
@@ -101,5 +134,5 @@ List<Color> personalizableColors = [
   Colors.orange,
   Colors.grey, //todo silber
 ];
-int currentPersonalizableColor = 3;
+int currentPersonalizableColor = 0;
 Color personalizedColor = personalizableColors[currentPersonalizableColor];
