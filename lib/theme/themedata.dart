@@ -22,6 +22,7 @@ ThemeData lightMode(BuildContext context) {
       surface: const Color.fromARGB(255, 239, 239, 239),
       primary: Colors.white,
       secondary: Colors.black,
+      tertiary: Colors.grey.shade800,
       primaryContainer: const Color.fromARGB(255, 250, 250, 250),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -52,11 +53,15 @@ ThemeData lightMode(BuildContext context) {
     ),
     listTileTheme: ListTileThemeData(
       titleTextStyle: TextStyle(
-        color: Colors.black,
+        color: Colors.grey.shade900,
         fontSize: 20,
         fontWeight: FontWeight.w700,
+        fontFamily: 'Poppins',
       ),
-      iconColor: Colors.black,
+      iconColor: Colors.grey.shade800,
+    ),
+    radioTheme: RadioThemeData(
+      fillColor: WidgetStateProperty.all<Color>(personalizedColor),
     ),
     chipTheme: ChipThemeData(
       labelStyle: TextStyle(
@@ -77,6 +82,7 @@ ThemeData darkMode(BuildContext context) {
         bodyMedium: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.w700,
+          fontFamily: 'Poppins'
         ),
         bodyLarge: TextStyle(
           color: Colors.white,
@@ -86,6 +92,7 @@ ThemeData darkMode(BuildContext context) {
       surface: const Color.fromARGB(255, 27, 27, 27),
       primary: Colors.black,
       secondary: Colors.white,
+      tertiary: Colors.grey.shade400,
       primaryContainer: const Color.fromARGB(255, 40, 40, 40),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -114,11 +121,12 @@ ThemeData darkMode(BuildContext context) {
     ),
     listTileTheme: ListTileThemeData(
       titleTextStyle: TextStyle(
-        color: Colors.white,
+        color: Colors.grey.shade200,
         fontSize: 20,
         fontWeight: FontWeight.w700,
+        fontFamily: 'Poppins',
       ),
-      iconColor: Colors.white,
+      iconColor: Colors.grey.shade200,
       subtitleTextStyle: TextStyle(
         color: Colors.white,
       ),

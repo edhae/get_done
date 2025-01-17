@@ -15,7 +15,8 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    Color personalizedColor = Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
+    Color personalizedColor =
+        Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
 
     return Scaffold(
       appBar: AppBar(
@@ -35,15 +36,14 @@ class _SettingsPageState extends State<SettingsPage> {
               Row(
                 children: [
                   SizedBox(
-                    width: 14,
+                    width: 10,
                   ),
                   Text(
                     'Colors',
-                    textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.tertiary,
                       fontSize: 17,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
@@ -72,18 +72,22 @@ class _SettingsPageState extends State<SettingsPage> {
                           title: Text(
                             'App Theme',
                             style: TextStyle(
-                                fontSize: 19, fontWeight: FontWeight.w500),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                          leading: Icon(Icons.dark_mode_outlined),
+                          leading: Icon(
+                            Icons.dark_mode_outlined,
+                          ),
                           trailing: Icon(Icons.arrow_forward_ios_rounded),
                         ),
                       ),
                     ),
                     Divider(
                       color: Theme.of(context).colorScheme.secondary,
-                      thickness: 1,
-                      indent: 25,
-                      endIndent: 25,
+                      thickness: 0.5,
+                      indent: 40,
+                      endIndent: 60,
                       height: 0,
                     ),
                     GestureDetector(
@@ -100,7 +104,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           title: Text(
                             'Personalize Color',
                             style: TextStyle(
-                              fontSize: 19,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -237,13 +241,22 @@ class SetpersonalizedColorAlert extends StatefulWidget {
 class _SetpersonalizedColorAlertState extends State<SetpersonalizedColorAlert> {
   @override
   Widget build(BuildContext context) {
-    Color personalizedColor = Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
+    Color personalizedColor =
+        Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
     Color pickedColor = personalizedColor;
 
     return AlertDialog(
+      title: Text(
+        'Select Color',
+        style: TextStyle(
+          fontSize: 24,
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+      ),
       content: BlockPicker(
         pickerColor: pickedColor,
         availableColors: personalizableColors,
+        useInShowDialog: true,
         onColorChanged: (newpersonalizedColor) {
           pickedColor = newpersonalizedColor;
         },
