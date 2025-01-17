@@ -23,11 +23,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+
     return MaterialApp(
       title: 'Get Done',
       debugShowCheckedModeBanner: false,
-      theme: lightMode,
-      darkTheme: darkMode,
+      theme: lightMode(context),
+      darkTheme: darkMode(context),
       themeMode: themeProvider.themeMode,
       home: RootPage(),
     );
@@ -41,7 +42,7 @@ class RootPage extends StatefulWidget {
   State<RootPage> createState() => _RootPageState();
 }
 
-class _RootPageState extends State<RootPage> {
+class _RootPageState extends State<RootPage> {  
   final List<Widget> pages = [
     TodayPage(),
     TodosPage(),
@@ -54,6 +55,7 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
+    Color personalizedColor = Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
     return Scaffold(
       body: pages[currentPage],
       bottomNavigationBar: ClipRRect(
@@ -109,8 +111,19 @@ class _RootPageState extends State<RootPage> {
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               colors: [
-                Color.alphaBlend(Colors.black.withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.4 : 0), personalizedColor) ,
-                Color.alphaBlend(Colors.black.withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.4 : 0), Color.alphaBlend(personalizedColor.withValues(alpha: 0.65), Colors.white)),
+                Color.alphaBlend(
+                    Colors.black.withValues(
+                        alpha: Theme.of(context).brightness == Brightness.dark
+                            ? 0.4
+                            : 0),
+                    personalizedColor),
+                Color.alphaBlend(
+                    Colors.black.withValues(
+                        alpha: Theme.of(context).brightness == Brightness.dark
+                            ? 0.4
+                            : 0),
+                    Color.alphaBlend(personalizedColor.withValues(alpha: 0.65),
+                        Colors.white)),
               ],
             ),
           ),

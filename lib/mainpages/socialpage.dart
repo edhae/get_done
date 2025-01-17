@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
-import 'package:get_done/theme/themedata.dart';
+import 'package:get_done/theme/themeprovider.dart';
+import 'package:provider/provider.dart';
 
 class SocialPage extends StatefulWidget {
   const SocialPage({super.key});
@@ -12,6 +13,9 @@ class SocialPage extends StatefulWidget {
 class _SocialPageState extends State<SocialPage> {
   @override
   Widget build(BuildContext context) {
+    Color personalizedColor =
+        Provider.of<ThemeProvider>(context).personalizedColor;
+
     return Scaffold(
       appBar: AppBar(
         title: GradientText(

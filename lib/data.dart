@@ -58,7 +58,7 @@ void startSorting(sortOption) {
   return;
 }
 
-void sortByDate() {
+void sortByDate({bool reversed = false}) {
   todos.sort((a, b) {
     String dateAString = a['todo_due_date'];
     String dateBString = b['todo_due_date'];
@@ -68,15 +68,15 @@ void sortByDate() {
     DateTime dateB = DateTime.parse(
         '20${dateBString.substring(0, 2)}-${dateBString.substring(3, 5)}-${dateBString.substring(6, 8)}');
 
-    return dateA.compareTo(dateB);
+    return reversed ? dateB.compareTo(dateA) : dateA.compareTo(dateB);
   });
 }
 
-void sortByPriority() {
+void sortByPriority({bool reversed = false}) {
   todos.sort((a, b) {
     int prioA = a['todo_priority'];
     int prioB = b['todo_priority'];
 
-    return prioB.compareTo(prioA);
+    return reversed ? prioA.compareTo(prioB) : prioB.compareTo(prioA);
   });
 }

@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:get_done/theme/themedata.dart';
 
 class ThemeProvider with ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.system; // Standard auf System-Theme
+  ThemeMode _themeMode = ThemeMode.system;
 
-  // Getter für ThemeMode
   ThemeMode get themeMode => _themeMode;
 
-  // Setter für ThemeMode
   set themeMode(ThemeMode mode) {
     _themeMode = mode;
     notifyListeners();
   }
 
-  // Methode: System-Theme aktivieren
   void setTheme(mode) {
     themeMode = mode;
   }
+
+
+  Color _personalizedColor = personalizableColors[currentPersonalizableColor];
+
+  Color get personalizedColor => _personalizedColor;
+
+  void updateColor(Color newColor) {
+    _personalizedColor = newColor;
+    notifyListeners();
+  } 
 }

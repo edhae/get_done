@@ -3,6 +3,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:get_done/theme/themedata.dart';
 import 'package:get_done/theme/themeprovider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -14,6 +15,8 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
+    Color personalizedColor = Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
+
     return Scaffold(
       appBar: AppBar(
         title: GradientText(
@@ -84,7 +87,12 @@ class _SettingsPageState extends State<SettingsPage> {
                       height: 0,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => SetpersonalizedColorAlert(),
+                        );
+                      },
                       child: InkWell(
                         splashColor: Colors.transparent,
                         hoverColor: Colors.transparent,
@@ -96,12 +104,6 @@ class _SettingsPageState extends State<SettingsPage> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => SetPersonalizedColorAlert(),
-                            );
-                          },
                           leading: Icon(Icons.color_lens_outlined),
                           trailing: Icon(Icons.arrow_forward_ios_rounded),
                         ),
@@ -203,7 +205,10 @@ class SetAppThemeAlert extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('Cancel'),
+          child: Text(
+            'Cancel',
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+          ),
         ),
         TextButton(
           onPressed: () {
@@ -211,18 +216,63 @@ class SetAppThemeAlert extends StatelessWidget {
                 .setTheme(selectedMode);
             Navigator.of(context).pop();
           },
-          child: const Text('Set'),
+          child: Text(
+            'Save',
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+          ),
         ),
       ],
     );
   }
 }
 
-class SetPersonalizedColorAlert extends StatelessWidget {
-  const SetPersonalizedColorAlert({super.key});
+class SetpersonalizedColorAlert extends StatefulWidget {
+  const SetpersonalizedColorAlert({super.key});
 
   @override
+  State<SetpersonalizedColorAlert> createState() =>
+      _SetpersonalizedColorAlertState();
+}
+
+class _SetpersonalizedColorAlertState extends State<SetpersonalizedColorAlert> {
+  @override
   Widget build(BuildContext context) {
-    return AlertDialog();
+    Color personalizedColor = Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
+    Color pickedColor = personalizedColor;
+
+    return AlertDialog(
+      content: BlockPicker(
+        pickerColor: pickedColor,
+        availableColors: personalizableColors,
+        onColorChanged: (newpersonalizedColor) {
+          pickedColor = newpersonalizedColor;
+        },
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text(
+            'Cancel',
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            setState(() {
+              personalizedColor = pickedColor;
+            });
+            Provider.of<ThemeProvider>(context, listen: false)
+                .updateColor(pickedColor);
+            Navigator.of(context).pop();
+          },
+          child: Text(
+            'Save',
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+          ),
+        ),
+      ],
+    );
   }
 }
