@@ -3,6 +3,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:get_done/data.dart';
 import 'package:provider/provider.dart';
 import 'package:get_done/theme/themeprovider.dart';
+import 'package:get_done/mainpages/todospages/edittodopage.dart';
 
 class TodosPage extends StatefulWidget {
   const TodosPage({super.key});
@@ -161,7 +162,12 @@ class _TodosPageState extends State<TodosPage> {
                       ),
                       child: GestureDetector(
                         onTap: () {
-                          //! todo bearbeiten
+                          Navigator.pop(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditTodoPage(),
+                            ),
+                          );
                         },
                         child: ListTile(
                           title: Text(
