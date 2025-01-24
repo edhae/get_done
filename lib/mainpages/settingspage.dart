@@ -129,17 +129,19 @@ class SetAppThemeAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeMode selectedMode =
-        Provider.of<ThemeProvider>(context, listen: false).themeMode;
+    ThemeMode selectedMode = Provider.of<ThemeProvider>(context, listen: false).themeMode;
+
+    Color personalizedColor = Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
 
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      title: Text(
-        'Select Theme',
-        style: TextStyle(
-          fontSize: 24,
-          color: Theme.of(context).colorScheme.secondary,
-        ),
+      title: GradientText(
+        'Select App Theme',
+        colors: [
+          personalizedColor,
+          personalizedColor.withValues(alpha: 0.5),
+        ],
+        style: TextStyle(fontWeight: FontWeight.w500),
       ),
       content: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
@@ -246,12 +248,13 @@ class _SetpersonalizedColorAlertState extends State<SetpersonalizedColorAlert> {
     Color pickedColor = personalizedColor;
 
     return AlertDialog(
-      title: Text(
-        'Select Color',
-        style: TextStyle(
-          fontSize: 24,
-          color: Theme.of(context).colorScheme.secondary,
-        ),
+      title: GradientText(
+        'Select App Color',
+        colors: [
+          personalizedColor,
+          personalizedColor.withValues(alpha: 0.5),
+        ],
+        style: TextStyle(fontWeight: FontWeight.w500),
       ),
       content: BlockPicker(
         pickerColor: pickedColor,

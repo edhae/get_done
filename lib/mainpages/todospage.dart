@@ -112,96 +112,130 @@ class _TodosPageState extends State<TodosPage> {
                     );
                   }
 
-                  return Dismissible(
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
                     key: ValueKey(index),
-                    direction: DismissDirection.horizontal,
-                    onDismissed: (direction) {
-                      if (direction == DismissDirection.endToStart) {
-                        setState(() {
-                          todo['todo_is_done'] = true;
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('${todo['title']} marked as done!'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      } else if (direction == DismissDirection.startToEnd) {
-                        //todo useful action
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('${todo['title']} deleted!'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      }
-                    },
-                    background: Container(
-                      color: Colors.red,
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                      ),
-                    ),
-                    secondaryBackground: Container(
-                      color: const Color.fromARGB(255, 60, 190, 65),
-                      alignment: Alignment.centerRight,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Icon(
-                        Icons.check,
-                        color: Colors.white,
-                      ),
-                    ),
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pop(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditTodoPage(),
+                    child: Dismissible(
+                      key: ValueKey(index),
+                      direction: DismissDirection.horizontal,
+                      onDismissed: (direction) {
+                        if (direction == DismissDirection.endToStart) {
+                          setState(() {
+                            todo['todo_is_done'] = true;
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              content: Text(
+                                '${todo['title']} marked as done!',
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary),
+                              ),
+                              duration: Duration(seconds: 2),
+                              backgroundColor:
+                                  personalizedColor.withValues(alpha: 0.7),
                             ),
                           );
-                        },
-                        child: ListTile(
-                          title: Text(
-                            '$todoTitle [$todoPriority]',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          subtitle: Text(
-                            todoDueDate,
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                // fontSize: 18,
+                        } else if (direction == DismissDirection.startToEnd) {
+                          Navigator.pop(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditTodoPage()));
+                        }
+                      },
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                        ),
+                      ),
+                      secondaryBackground: Container(
+                        color: const Color.fromARGB(255, 60, 190, 65),
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Icon(
+                          Icons.check,
+                          color: Colors.white,
+                        ),
+                      ),
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        decoration: BoxDecoration(
+                          // borderRadius: BorderRadius.circular(15),
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditTodoPage(),
+                              ),
+                            );
+                          },
+                          child: ListTile(
+                            visualDensity: VisualDensity(vertical: -4),
+                            title: Text(
+                              '$todoTitle [$todoPriority]',
+                              style: TextStyle(
+                                fontSize: 18,
                                 fontWeight: FontWeight.w500,
-                                color: Color.alphaBlend(
-                                    personalizedColor.withValues(alpha: 0.1),
-                                    Theme.of(context).colorScheme.secondary)),
-                          ),
-                          leading: Icon(
-                            projectIcon,
-                            color: projectColor,
-                          ),
-                          trailing: Transform.scale(
-                            scale: 1.4,
-                            child: Checkbox(
-                              value: todoIsDone,
-                              onChanged: (value) {
-                                setState(() {
-                                  todo['todo_is_done'] = value!;
-                                });
-                              },
-                              shape: CircleBorder(),
+                              ),
+                            ),
+                            subtitle: Text(
+                              todoDueDate,
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  // fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color.alphaBlend(
+                                      personalizedColor.withValues(alpha: 0.1),
+                                      Theme.of(context).colorScheme.secondary)),
+                            ),
+                            leading: Icon(
+                              projectIcon,
+                              color: projectColor,
+                            ),
+                            trailing: Transform.scale(
+                              scale: 1,
+                              // scale: 1.4,
+                              child: Checkbox(
+                                value: todoIsDone,
+                                onChanged: (value) {
+                                  setState(() {
+                                    todo['todo_is_done'] = value!;
+                                  });
+                                  if (!todoIsDone) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        behavior: SnackBarBehavior.floating,
+                                        margin: EdgeInsets.only(left: 20, right: 20, top: 500, bottom: 0),
+                                        content: Text(
+                                          '${todo['title']} marked as done!',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary),
+                                        ),
+                                        duration: Duration(seconds: 2),
+                                        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+                                      ),
+                                    );
+                                  }
+                                },
+                                shape: CircleBorder(),
+                              ),
                             ),
                           ),
                         ),
@@ -243,6 +277,7 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
       actions: [
         TextButton(
           onPressed: () {
+            startSorting(selectedSortOption, selectedSortOrderOption);
             Navigator.of(context).pop();
           },
           child: Text(
@@ -268,7 +303,28 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
                       onSelected: (newValue) {
                         setState(() {
                           selectedSortOption = sortOption;
-                          startSorting(sortOption);
+                        });
+                      },
+                      showCheckmark: false,
+                    ),
+                  )
+                  .toList(),
+            ),
+            Wrap(
+              spacing: 8.0,
+              children: [
+                [Icons.arrow_upward_rounded, 'acending'],
+                [Icons.arrow_downward_rounded, 'decending']
+              ]
+                  .map(
+                    (sortOrderOptionList) => ChoiceChip(
+                      label: Icon(sortOrderOptionList[0] as IconData, size: 20),
+                      selected:
+                          selectedSortOrderOption == sortOrderOptionList[1],
+                      onSelected: (newValue) {
+                        setState(() {
+                          selectedSortOrderOption =
+                              sortOrderOptionList[1] as String;
                         });
                       },
                       showCheckmark: false,
