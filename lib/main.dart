@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get_done/theme/themeprovider.dart';
 import 'package:provider/provider.dart';
 import 'package:get_done/theme/themedata.dart';
@@ -9,6 +10,7 @@ import 'package:get_done/mainpages/socialpage.dart';
 import 'package:get_done/mainpages/settingspage.dart';
 
 void main() {
+  debugPaintSizeEnabled = false;
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProvider(),

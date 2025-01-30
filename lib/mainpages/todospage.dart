@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:get_done/theme/themeprovider.dart';
 import 'package:get_done/mainpages/todospages/edittodopage.dart';
 
+
 class TodosPage extends StatefulWidget {
   const TodosPage({super.key});
 
@@ -117,7 +118,10 @@ class _TodosPageState extends State<TodosPage> {
                     key: ValueKey(index),
                     child: Dismissible(
                       key: ValueKey(index),
-                      direction: DismissDirection.horizontal,
+                      direction: todoIsDone
+                          ? DismissDirection.startToEnd
+                          : DismissDirection.horizontal,
+                      // confirmDismiss: (direction) async => false,
                       onDismissed: (direction) {
                         if (direction == DismissDirection.endToStart) {
                           setState(() {
@@ -168,7 +172,7 @@ class _TodosPageState extends State<TodosPage> {
                       child: Container(
                         margin: EdgeInsets.only(bottom: 5),
                         decoration: BoxDecoration(
-                          // borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(15),
                           color: Theme.of(context).colorScheme.primaryContainer,
                         ),
                         child: GestureDetector(
@@ -204,8 +208,7 @@ class _TodosPageState extends State<TodosPage> {
                               color: projectColor,
                             ),
                             trailing: Transform.scale(
-                              scale: 1,
-                              // scale: 1.4,
+                              scale: 1.2,
                               child: Checkbox(
                                 value: todoIsDone,
                                 onChanged: (value) {
@@ -219,8 +222,6 @@ class _TodosPageState extends State<TodosPage> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ),
-                                        behavior: SnackBarBehavior.floating,
-                                        margin: EdgeInsets.only(left: 20, right: 20, top: 500, bottom: 0),
                                         content: Text(
                                           '${todo['title']} marked as done!',
                                           style: TextStyle(
@@ -229,12 +230,13 @@ class _TodosPageState extends State<TodosPage> {
                                                   .secondary),
                                         ),
                                         duration: Duration(seconds: 2),
-                                        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+                                        backgroundColor: Theme.of(context)
+                                            .bottomNavigationBarTheme
+                                            .backgroundColor,
                                       ),
                                     );
                                   }
                                 },
-                                shape: CircleBorder(),
                               ),
                             ),
                           ),
