@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:get_done/theme/themeprovider.dart';
 import 'package:get_done/mainpages/todospages/edittodopage.dart';
 
-
 class TodosPage extends StatefulWidget {
   const TodosPage({super.key});
 
@@ -150,6 +149,7 @@ class _TodosPageState extends State<TodosPage> {
                               MaterialPageRoute(
                                   builder: (context) => EditTodoPage()));
                         }
+                        startSorting(selectedSortOption, selectedSortDirectionOption);
                       },
                       background: Container(
                         color: Colors.red,
@@ -279,7 +279,7 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
       actions: [
         TextButton(
           onPressed: () {
-            startSorting(selectedSortOption, selectedSortOrderOption);
+            startSorting(selectedSortOption, selectedSortDirectionOption);
             Navigator.of(context).pop();
           },
           child: Text(
@@ -319,14 +319,14 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
                 [Icons.arrow_downward_rounded, 'decending']
               ]
                   .map(
-                    (sortOrderOptionList) => ChoiceChip(
-                      label: Icon(sortOrderOptionList[0] as IconData, size: 20),
+                    (sortDirectionOptionList) => ChoiceChip(
+                      label: Icon(sortDirectionOptionList[0] as IconData, size: 20),
                       selected:
-                          selectedSortOrderOption == sortOrderOptionList[1],
+                          selectedSortDirectionOption == sortDirectionOptionList[1],
                       onSelected: (newValue) {
                         setState(() {
-                          selectedSortOrderOption =
-                              sortOrderOptionList[1] as String;
+                          selectedSortDirectionOption =
+                              sortDirectionOptionList[1] as String;
                         });
                       },
                       showCheckmark: false,

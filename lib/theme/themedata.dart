@@ -22,7 +22,7 @@ ThemeData lightMode(BuildContext context) {
       surface: const Color.fromARGB(255, 239, 239, 239),
       primary: Colors.white,
       secondary: Colors.black,
-      tertiary: Colors.grey.shade800,
+      tertiary: Colors.grey.shade600,
       primaryContainer: const Color.fromARGB(255, 250, 250, 250),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(

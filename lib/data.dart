@@ -43,17 +43,17 @@ Map<int, Map<String, dynamic>> projects = {
 
 // Filtering and Sorting
 String selectedSortOption = 'Date';
-String selectedSortOrderOption = 'decending';
+String selectedSortDirectionOption = 'decending';
 List<String> selectedStatusFilters = ['Done', 'Undone'];
 List<String> selectedPriorityFilters = ['0', '1', '2'];
 List selectedProjectsId =
     List.generate(projects.length, (int index) => index, growable: true);
 
-void startSorting(sortOption, sortOrderOption) {
+void startSorting(sortOption, sortDirectionOption) {
   if (sortOption == 'Date') {
-    sortByDate(reversed: sortOrderOption == 'acending');
+    sortByDate(reversed: sortDirectionOption == 'acending');
   } else if (sortOption == 'Priority') {
-    sortByPriority(reversed: sortOrderOption == 'decending');
+    sortByPriority(reversed: sortDirectionOption == 'decending');
   }
   return;
 }
