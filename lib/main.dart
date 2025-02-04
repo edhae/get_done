@@ -75,24 +75,29 @@ class _RootPageState extends State<RootPage> {
           },
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.list_alt_rounded),
+              icon: Icon(Icons.library_books_outlined),
               label: 'Today',
+              activeIcon: Icon(Icons.library_books_rounded),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.check_box_outlined),
               label: 'ToDos',
+              activeIcon: Icon(Icons.check_box_rounded),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.hourglass_empty_rounded),
               label: 'Focus',
+              activeIcon: Icon(Icons.hourglass_full_rounded),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.group_outlined),
               label: 'Social',
+              activeIcon: Icon(Icons.group_rounded),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings_outlined),
               label: 'Settings',
+              activeIcon: Icon(Icons.settings_rounded),
             ),
           ],
         ),
