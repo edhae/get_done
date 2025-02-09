@@ -78,7 +78,6 @@ class _TodosPageState extends State<TodosPage> {
 
             int projectId = todo['project_id'];
             Map project = projects[projectId]!;
-            String projectTitle = project['project_name'];
             Color projectColor = project['project_color'];
             IconData projectIcon = project['project_icon'];
 
