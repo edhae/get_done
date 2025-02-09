@@ -8,15 +8,6 @@ ThemeData lightMode(BuildContext context) {
 
   return ThemeData(
     fontFamily: 'Poppins',
-    textTheme: TextTheme(
-      // bodySmall: TextStyle(
-      //   color: Colors.white,
-      // ),
-      bodyMedium: TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.w700,
-      ),
-    ),
     colorScheme: ColorScheme.light(
       brightness: Brightness.light,
       surface: const Color.fromARGB(255, 239, 239, 239),
@@ -78,15 +69,6 @@ ThemeData darkMode(BuildContext context) {
   
   return ThemeData(
     fontFamily: 'Poppins',
-    textTheme: TextTheme(
-        bodyMedium: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w700,
-          fontFamily: 'Poppins'
-        ),
-        bodyLarge: TextStyle(
-          color: Colors.white,
-        )),
     colorScheme: ColorScheme.light(
       brightness: Brightness.dark,
       surface: const Color.fromARGB(255, 27, 27, 27),
