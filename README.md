@@ -4,5 +4,5 @@ A Flutter Productivity App.
 
 ## Founders
 
-Edward Hähnel
+Edward Hähnel, 
 Colin Saar
