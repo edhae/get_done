@@ -90,9 +90,9 @@ class _RootPageState extends State<RootPage> {
               activeIcon: Icon(Icons.hourglass_full_rounded),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.group_outlined),
+              icon: Icon(Icons.groups_outlined),
               label: 'Social',
-              activeIcon: Icon(Icons.group_rounded),
+              activeIcon: Icon(Icons.groups_rounded),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings_outlined),

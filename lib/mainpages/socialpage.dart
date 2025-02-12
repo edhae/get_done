@@ -14,7 +14,7 @@ class _SocialPageState extends State<SocialPage> {
   @override
   Widget build(BuildContext context) {
     Color personalizedColor =
-        Provider.of<ThemeProvider>(context).personalizedColor;
+        Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
 
     return Scaffold(
       appBar: AppBar(

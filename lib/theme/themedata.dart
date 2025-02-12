@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 ThemeData lightMode(BuildContext context) {
   Color personalizedColor =
-      Provider.of<ThemeProvider>(context).personalizedColor;
+      Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
 
   return ThemeData(
     fontFamily: 'Poppins',
@@ -18,15 +18,15 @@ ThemeData lightMode(BuildContext context) {
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Color.alphaBlend(
-          personalizedColor.withValues(alpha: 0.35), Colors.grey.shade200),
+          personalizedColor.withValues(alpha: 0.5), Colors.white),
       selectedLabelStyle: TextStyle(
         fontWeight: FontWeight.w900,
-        color: Colors.green,
       ),
       unselectedLabelStyle: TextStyle(
-        color: Colors.black,
         fontWeight: FontWeight.w700,
       ),
+      selectedItemColor: Colors.grey.shade800,
+      unselectedItemColor: Colors.grey.shade700,
     ),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
@@ -50,6 +50,9 @@ ThemeData lightMode(BuildContext context) {
         fontFamily: 'Poppins',
       ),
       iconColor: Colors.grey.shade800,
+      subtitleTextStyle: TextStyle(
+        color: Colors.black,
+      )
     ),
     radioTheme: RadioThemeData(
       fillColor: WidgetStateProperty.all<Color>(personalizedColor),
@@ -65,7 +68,7 @@ ThemeData lightMode(BuildContext context) {
 }
 
 ThemeData darkMode(BuildContext context) {
-  Color personalizedColor = Provider.of<ThemeProvider>(context).personalizedColor;
+  Color personalizedColor = Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
   
   return ThemeData(
     fontFamily: 'Poppins',

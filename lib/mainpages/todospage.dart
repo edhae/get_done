@@ -14,7 +14,7 @@ class TodosPage extends StatefulWidget {
 }
 
 class _TodosPageState extends State<TodosPage> {
-  int anyTodosDisplayed = 0;
+  Set<int> selected = {0};
 
   @override
   Widget build(BuildContext context) {
@@ -50,93 +50,83 @@ class _TodosPageState extends State<TodosPage> {
       ),
       body: Container(
         margin: EdgeInsets.only(top: 20, right: 10, left: 10),
-        child: ReorderableListView.builder(
-          onReorder: (oldIndex, newIndex) {
-            setState(
-              () {
-                if (newIndex > oldIndex) {
-                  newIndex -= 1;
-                }
-                final item = todos.removeAt(oldIndex);
-                todos.insert(newIndex, item);
+        child: Column(
+          children: [
+            SegmentedButton(
+              segments: [
+                ButtonSegment(value: 1, label: Text('List View')),
+                ButtonSegment(value: 2, label: Text('Calender View')),
+              ],
+              selected: selected,
+              onSelectionChanged: (p0) {
+                setState(() {
+                  selected = p0;
+                });
               },
-            );
-          },
-          // proxyDecorator: (child, index, animation) => Material(
-          //   borderRadius: BorderRadius.circular(15),
-          //   child: child,
-          // ),
-          itemCount: todos.length,
-          itemBuilder: (context, index) {
-            // unpack todo data & project data
-            Map todo = todos[index];
-            String todoTitle = todo['todo_title'];
-            String todoDueDate = todo['todo_due_date'];
-            String todoPriority = todo['todo_priority'].toString();
-            bool todoIsDone = todo['todo_is_done'];
-            String todoIsDoneString = todoIsDone ? 'Done' : 'Undone';
+              showSelectedIcon: false,
+            ),
+            Expanded(
+              child: filteredTodos.isEmpty
+                  ? Text('Hallo TEST TEST')
+                  : ReorderableListView.builder(
+                      onReorder: (oldIndex, newIndex) {
+                        setState(
+                          () {
+                            if (newIndex > oldIndex) {
+                              newIndex -= 1;
+                            }
+                            final item = filteredTodos.removeAt(oldIndex);
+                            filteredTodos.insert(newIndex, item);
+                          },
+                        );
+                      },
+                      itemCount: filteredTodos.length,
+                      itemBuilder: (context, index) {
+                        // unpack todo data & project data
+                        Map todo = filteredTodos[index];
+                        String todoTitle = todo['todo_title'];
+                        String todoDueDate = todo['todo_due_date'];
+                        String todoPriority = todo['todo_priority'].toString();
+                        bool todoIsDone = todo['todo_is_done'];
 
-            int projectId = todo['project_id'];
-            Map project = projects[projectId]!;
-            Color projectColor = project['project_color'];
-            IconData projectIcon = project['project_icon'];
+                        int projectId = todo['project_id'];
+                        Map project = projects[projectId]!;
+                        Color projectColor = project['project_color'];
+                        IconData projectIcon = project['project_icon'];
 
-            if (index == 0) {
-              anyTodosDisplayed = 0;
-            }
-
-            // check status filter
-            if (!selectedStatusFilters.contains(todoIsDoneString)) {
-              anyTodosDisplayed += 1;
-              return SizedBox.shrink(
-                key: ValueKey(index),
-              );
-            }
-
-            // check priority filter
-            if (!selectedPriorityFilters.contains(todoPriority.toString())) {
-              anyTodosDisplayed += 1;
-              return SizedBox.shrink(
-                key: ValueKey(index),
-              );
-            }
-
-            // check project filter
-            if (!selectedProjectsId.contains(projectId)) {
-              anyTodosDisplayed += 1;
-              return SizedBox.shrink(
-                key: ValueKey(index),
-              );
-            }
-
-            return Container(
-              key: ValueKey(index),
-              margin: EdgeInsets.only(bottom: 5),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditTodoPage(),
+                        return Container(
+                          key: ValueKey(index),
+                          margin: EdgeInsets.only(bottom: 5),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditTodoPage(),
+                                ),
+                              );
+                            },
+                            child: TodoListeTile(
+                              title: todoTitle,
+                              priority: todoPriority,
+                              projectIcon: projectIcon,
+                              projectColor: projectColor,
+                              dueDate: todoDueDate,
+                              isChecked: todoIsDone,
+                              onChecked: (value) {
+                                setState(() {
+                                  todo['todo_is_done'] = value;
+                                  filterTodos(todos);
+                                  startSorting(selectedSortOption, selectedSortDirectionOption);
+                                });
+                              },
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-                child: TodoListeTile(
-                  title: todoTitle,
-                  priority: todoPriority,
-                  projectIcon: projectIcon,
-                  projectColor: projectColor,
-                  dueDate: todoDueDate,
-                  isChecked: todoIsDone,
-                  onChecked: (value) {
-                    setState(() {
-                      todo['todo_is_done'] = value;
-                    });
-                  },
-                ),
-              ),
-            );
-          },
+            ),
+          ],
         ),
       ),
     );
@@ -154,7 +144,7 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
   @override
   Widget build(BuildContext context) {
     Color personalizedColor =
-        Provider.of<ThemeProvider>(context).personalizedColor;
+        Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
 
     return AlertDialog(
       title: GradientText(
@@ -169,6 +159,7 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
         TextButton(
           onPressed: () {
             startSorting(selectedSortOption, selectedSortDirectionOption);
+            filterTodos(todos);
             Navigator.of(context).pop();
           },
           child: Text(
