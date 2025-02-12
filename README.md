@@ -1,4 +1,4 @@
-# get_done
+# GetDone
 
 A Flutter Productivity App.
 
