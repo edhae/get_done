@@ -1,0 +1,1 @@
+C:\dev\flutter_apps\get_done_app\get_done\build\app\intermediates\cxx\Debug\6l403t2t\obj\armeabi-v7a

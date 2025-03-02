@@ -18,6 +18,10 @@ class _SettingsPageState extends State<SettingsPage> {
     Color personalizedColor =
         Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
 
+    Color personalizedIconColor = Color.alphaBlend(
+        personalizedColor.withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.5 : 0.65),
+        Theme.of(context).colorScheme.secondary);
+
     return Scaffold(
       appBar: AppBar(
         title: GradientText(
@@ -53,9 +57,12 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(15),
-                ),
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.tertiary,
+                      width: 1,
+                    )),
                 child: Column(
                   children: [
                     GestureDetector(
@@ -78,16 +85,19 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                           leading: Icon(
                             Icons.dark_mode_outlined,
+                            color: personalizedIconColor,
                           ),
-                          trailing: Icon(Icons.arrow_forward_ios_rounded),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios_rounded,
+                          ),
                         ),
                       ),
                     ),
                     Divider(
                       color: Theme.of(context).colorScheme.secondary,
                       thickness: 0.5,
-                      indent: 40,
-                      endIndent: 60,
+                      indent: 50,
+                      endIndent: 50,
                       height: 0,
                     ),
                     GestureDetector(
@@ -108,8 +118,13 @@ class _SettingsPageState extends State<SettingsPage> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          leading: Icon(Icons.color_lens_outlined),
-                          trailing: Icon(Icons.arrow_forward_ios_rounded),
+                          leading: Icon(
+                            Icons.color_lens_outlined,
+                            color: personalizedIconColor,
+                          ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios_rounded,
+                          ),
                         ),
                       ),
                     ),
@@ -129,9 +144,11 @@ class SetAppThemeAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeMode selectedMode = Provider.of<ThemeProvider>(context, listen: false).themeMode;
+    ThemeMode selectedMode =
+        Provider.of<ThemeProvider>(context, listen: false).themeMode;
 
-    Color personalizedColor = Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
+    Color personalizedColor =
+        Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
 
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

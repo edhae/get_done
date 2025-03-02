@@ -8,6 +8,7 @@ class ThemeProvider with ChangeNotifier {
 
   set themeMode(ThemeMode mode) {
     _themeMode = mode;
+    WidgetsBinding.instance.performReassemble();
     notifyListeners();
   }
 

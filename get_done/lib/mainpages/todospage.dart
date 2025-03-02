@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_done/assets/todo_list_tile.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:get_done/data.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,7 @@ class TodosPage extends StatefulWidget {
 }
 
 class _TodosPageState extends State<TodosPage> {
-  int anyTodosDisplayed = 0;
+  Set<int> selected = {0};
 
   @override
   Widget build(BuildContext context) {
@@ -49,129 +50,53 @@ class _TodosPageState extends State<TodosPage> {
       ),
       body: Container(
         margin: EdgeInsets.only(top: 20, right: 10, left: 10),
+        width: double.infinity,
         child: Column(
           children: [
+            SegmentedButton(
+              segments: [
+                ButtonSegment(value: 1, label: Text('List View')),
+                ButtonSegment(value: 2, label: Text('Calender View')),
+              ],
+              selected: selected,
+              onSelectionChanged: (p0) {
+                setState(() {
+                  selected = p0;
+                });
+              },
+              showSelectedIcon: false,
+            ),
             Expanded(
-              child: ReorderableListView.builder(
-                onReorder: (oldIndex, newIndex) {
-                  setState(
-                    () {
-                      if (newIndex > oldIndex) {
-                        newIndex -= 1;
-                      }
-                      final item = todos.removeAt(oldIndex);
-                      todos.insert(newIndex, item);
-                    },
-                  );
-                },
-                proxyDecorator: (child, index, animation) => Material(
-                  borderRadius: BorderRadius.circular(15),
-                  child: child,
-                ),
-                itemCount: todos.length,
-                itemBuilder: (context, index) {
-                  // unpack todo data & project data
-                  Map todo = todos[index];
-                  String todoTitle = todo['todo_title'];
-                  String todoDueDate = todo['todo_due_date'];
-                  String todoPriority = todo['todo_priority'].toString();
-                  bool todoIsDone = todo['todo_is_done'];
-                  String todoIsDoneString = todoIsDone ? 'Done' : 'Undone';
-
-                  int projectId = todo['project_id'];
-                  Map project = projects[projectId]!;
-                  Color projectColor = project['project_color'];
-                  IconData projectIcon = project['project_icon'];
-
-                  if (index == 0) {
-                    anyTodosDisplayed = 0;
-                  }
-
-                  // check status filter
-                  if (!selectedStatusFilters.contains(todoIsDoneString)) {
-                    anyTodosDisplayed += 1;
-                    return SizedBox.shrink(
-                      key: ValueKey(index),
-                    );
-                  }
-
-                  // check priority filter
-                  if (!selectedPriorityFilters
-                      .contains(todoPriority.toString())) {
-                    anyTodosDisplayed += 1;
-                    return SizedBox.shrink(
-                      key: ValueKey(index),
-                    );
-                  }
-
-                  // check project filter
-                  if (!selectedProjectsId.contains(projectId)) {
-                    anyTodosDisplayed += 1;
-                    return SizedBox.shrink(
-                      key: ValueKey(index),
-                    );
-                  }
-
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    key: ValueKey(index),
-                    child: Dismissible(
-                      key: ValueKey(index),
-                      direction: DismissDirection.horizontal,
-                      onDismissed: (direction) {
-                        if (direction == DismissDirection.endToStart) {
-                          setState(() {
-                            todo['todo_is_done'] = true;
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              content: Text(
-                                '${todo['title']} marked as done!',
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary),
-                              ),
-                              duration: Duration(seconds: 2),
-                              backgroundColor:
-                                  personalizedColor.withValues(alpha: 0.7),
-                            ),
-                          );
-                        } else if (direction == DismissDirection.startToEnd) {
-                          Navigator.pop(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditTodoPage()));
-                        }
+              child: filteredTodos.isEmpty
+                  ? Text('Hallo TEST TEST')
+                  : ReorderableListView.builder(
+                      onReorder: (oldIndex, newIndex) {
+                        setState(
+                          () {
+                            if (newIndex > oldIndex) {
+                              newIndex -= 1;
+                            }
+                            final item = filteredTodos.removeAt(oldIndex);
+                            filteredTodos.insert(newIndex, item);
+                          },
+                        );
                       },
-                      background: Container(
-                        color: Colors.red,
-                        alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Icon(
-                          Icons.delete,
-                          color: Colors.white,
-                        ),
-                      ),
-                      secondaryBackground: Container(
-                        color: const Color.fromARGB(255, 60, 190, 65),
-                        alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.white,
-                        ),
-                      ),
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 5),
-                        decoration: BoxDecoration(
-                          // borderRadius: BorderRadius.circular(15),
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                        ),
-                        child: GestureDetector(
+                      itemCount: filteredTodos.length,
+                      itemBuilder: (context, index) {
+                        // unpack todo data & project data
+                        Map todo = filteredTodos[index];
+                        String todoTitle = todo['todo_title'];
+                        String todoDueDate = todo['todo_due_date'];
+                        String todoPriority = todo['todo_priority'].toString();
+                        bool todoIsDone = todo['todo_is_done'];
+
+                        int projectId = todo['project_id'];
+                        Map project = projects[projectId]!;
+                        Color projectColor = project['project_color'];
+                        IconData projectIcon = project['project_icon'];
+
+                        return GestureDetector(
+                          key: ValueKey(index),
                           onTap: () {
                             Navigator.pop(
                               context,
@@ -180,70 +105,25 @@ class _TodosPageState extends State<TodosPage> {
                               ),
                             );
                           },
-                          child: ListTile(
-                            visualDensity: VisualDensity(vertical: -4),
-                            title: Text(
-                              '$todoTitle [$todoPriority]',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            subtitle: Text(
-                              todoDueDate,
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  // fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color.alphaBlend(
-                                      personalizedColor.withValues(alpha: 0.1),
-                                      Theme.of(context).colorScheme.secondary)),
-                            ),
-                            leading: Icon(
-                              projectIcon,
-                              color: projectColor,
-                            ),
-                            trailing: Transform.scale(
-                              scale: 1,
-                              // scale: 1.4,
-                              child: Checkbox(
-                                value: todoIsDone,
-                                onChanged: (value) {
-                                  setState(() {
-                                    todo['todo_is_done'] = value!;
-                                  });
-                                  if (!todoIsDone) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        behavior: SnackBarBehavior.floating,
-                                        margin: EdgeInsets.only(left: 20, right: 20, top: 500, bottom: 0),
-                                        content: Text(
-                                          '${todo['title']} marked as done!',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary),
-                                        ),
-                                        duration: Duration(seconds: 2),
-                                        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-                                      ),
-                                    );
-                                  }
-                                },
-                                shape: CircleBorder(),
-                              ),
-                            ),
+                          child: TodoListeTile(
+                            title: todoTitle,
+                            priority: todoPriority,
+                            projectIcon: projectIcon,
+                            projectColor: projectColor,
+                            dueDate: todoDueDate,
+                            isChecked: todoIsDone,
+                            onChecked: (value) {
+                              setState(() {
+                                todo['todo_is_done'] = value;
+                                filterTodos(todos);
+                                startSorting(selectedSortOption,
+                                    selectedSortDirectionOption);
+                              });
+                            },
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
           ],
         ),
@@ -263,7 +143,7 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
   @override
   Widget build(BuildContext context) {
     Color personalizedColor =
-        Provider.of<ThemeProvider>(context).personalizedColor;
+        Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
 
     return AlertDialog(
       title: GradientText(
@@ -277,7 +157,8 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
       actions: [
         TextButton(
           onPressed: () {
-            startSorting(selectedSortOption, selectedSortOrderOption);
+            startSorting(selectedSortOption, selectedSortDirectionOption);
+            filterTodos(todos);
             Navigator.of(context).pop();
           },
           child: Text(
@@ -317,14 +198,15 @@ class _SetFilterAndSortAlertState extends State<SetFilterAndSortAlert> {
                 [Icons.arrow_downward_rounded, 'decending']
               ]
                   .map(
-                    (sortOrderOptionList) => ChoiceChip(
-                      label: Icon(sortOrderOptionList[0] as IconData, size: 20),
-                      selected:
-                          selectedSortOrderOption == sortOrderOptionList[1],
+                    (sortDirectionOptionList) => ChoiceChip(
+                      label: Icon(sortDirectionOptionList[0] as IconData,
+                          size: 20),
+                      selected: selectedSortDirectionOption ==
+                          sortDirectionOptionList[1],
                       onSelected: (newValue) {
                         setState(() {
-                          selectedSortOrderOption =
-                              sortOrderOptionList[1] as String;
+                          selectedSortDirectionOption =
+                              sortDirectionOptionList[1] as String;
                         });
                       },
                       showCheckmark: false,

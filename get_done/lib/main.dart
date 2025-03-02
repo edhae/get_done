@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get_done/theme/themeprovider.dart';
 import 'package:provider/provider.dart';
 import 'package:get_done/theme/themedata.dart';
@@ -7,12 +8,17 @@ import 'package:get_done/mainpages/todospage.dart';
 import 'package:get_done/mainpages/focuspage.dart';
 import 'package:get_done/mainpages/socialpage.dart';
 import 'package:get_done/mainpages/settingspage.dart';
+import 'package:device_preview/device_preview.dart';
 
 void main() {
+  debugPaintSizeEnabled = false;
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProvider(),
-      child: MyApp(),
+      child: DevicePreview(
+        enabled: false,
+        builder: (context) => MyApp(),
+      ),
     ),
   );
 }
@@ -42,7 +48,7 @@ class RootPage extends StatefulWidget {
   State<RootPage> createState() => _RootPageState();
 }
 
-class _RootPageState extends State<RootPage> {  
+class _RootPageState extends State<RootPage> {
   final List<Widget> pages = [
     TodayPage(),
     TodosPage(),
@@ -55,7 +61,8 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color personalizedColor = Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
+    Color personalizedColor =
+        Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
     return Scaffold(
       body: pages[currentPage],
       bottomNavigationBar: ClipRRect(
@@ -73,24 +80,29 @@ class _RootPageState extends State<RootPage> {
           },
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.list_alt_rounded),
+              icon: Icon(Icons.library_books_outlined),
               label: 'Today',
+              activeIcon: Icon(Icons.library_books_rounded),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.check_box_outlined),
               label: 'ToDos',
+              activeIcon: Icon(Icons.check_box_rounded),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.hourglass_empty_rounded),
               label: 'Focus',
+              activeIcon: Icon(Icons.hourglass_full_rounded),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.group_outlined),
+              icon: Icon(Icons.groups_outlined),
               label: 'Social',
+              activeIcon: Icon(Icons.groups_rounded),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings_outlined),
               label: 'Settings',
+              activeIcon: Icon(Icons.settings_rounded),
             ),
           ],
         ),
