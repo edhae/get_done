@@ -55,9 +55,9 @@ class _TodoListeTileState extends State<TodoListeTile> {
                   fontSize: 15
                 ),
               ),
-              Spacer(),
+              SizedBox(width: 20),
               Icon(Icons.calendar_today, size: 16, color: Colors.grey),
-              SizedBox(width: 4),
+              SizedBox(width: 10),
               Text(widget.dueDate, style: TextStyle(fontStyle: FontStyle.italic)),
             ],
           ),

@@ -61,8 +61,8 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color personalizedColor =
-        Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
+    // Color personalizedColor =
+    //     Provider.of<ThemeProvider>(context, listen: false).personalizedColor;
     return Scaffold(
       body: pages[currentPage],
       bottomNavigationBar: ClipRRect(
@@ -107,41 +107,41 @@ class _RootPageState extends State<RootPage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(23),
-        ),
-        elevation: 0,
-        child: Container(
-          height: 60,
-          width: 60,
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(23),
-            gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              colors: [
-                Color.alphaBlend(
-                    Colors.black.withValues(
-                        alpha: Theme.of(context).brightness == Brightness.dark
-                            ? 0.4
-                            : 0),
-                    personalizedColor),
-                Color.alphaBlend(
-                    Colors.black.withValues(
-                        alpha: Theme.of(context).brightness == Brightness.dark
-                            ? 0.4
-                            : 0),
-                    Color.alphaBlend(personalizedColor.withValues(alpha: 0.65),
-                        Colors.white)),
-              ],
-            ),
-          ),
-          child: Icon(Icons.add),
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.circular(23),
+      //   ),
+      //   elevation: 0,
+      //   child: Container(
+      //     height: 60,
+      //     width: 60,
+      //     decoration: BoxDecoration(
+      //       shape: BoxShape.rectangle,
+      //       borderRadius: BorderRadius.circular(23),
+      //       gradient: LinearGradient(
+      //         begin: Alignment.bottomLeft,
+      //         end: Alignment.topRight,
+      //         colors: [
+      //           Color.alphaBlend(
+      //               Colors.black.withValues(
+      //                   alpha: Theme.of(context).brightness == Brightness.dark
+      //                       ? 0.4
+      //                       : 0),
+      //               personalizedColor),
+      //           Color.alphaBlend(
+      //               Colors.black.withValues(
+      //                   alpha: Theme.of(context).brightness == Brightness.dark
+      //                       ? 0.4
+      //                       : 0),
+      //               Color.alphaBlend(personalizedColor.withValues(alpha: 0.65),
+      //                   Colors.white)),
+      //         ],
+      //       ),
+      //     ),
+      //     child: Icon(Icons.add),
+      //   ),
+      // ),
     );
   }
 }
